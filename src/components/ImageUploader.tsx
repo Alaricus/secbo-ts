@@ -37,25 +37,20 @@ const ImageUploader: FC<ImageUploaderProps> = ({ updateCanvas, imageInfo, setIma
     }
 
     fr.onload = event => {
-      try {
-        img.onload = () => {
-          updateCanvas(img);
-          setImageInfo({
-            ...imageInfo,
-            image: img,
-            name: file.name,
-            text: readAlpha() ?? '',
-            binary: textToBinary(readAlpha() ?? ''),
-          });
-        };
+      img.onload = () => {
+        updateCanvas(img);
+        setImageInfo({
+          ...imageInfo,
+          image: img,
+          name: file.name,
+          text: readAlpha() ?? '',
+          binary: textToBinary(readAlpha() ?? ''),
+        });
+      };
 
-        const { result } = event.target ?? {};
-        if (typeof result === 'string') {
-          img.src = result;
-        }
-      } catch (err) {
-        // TODO: Set up a mechanism for reporting errors to the user
-        console.log('File failed to load.');
+      const { result } = event.target ?? {};
+      if (typeof result === 'string') {
+        img.src = result;
       }
     };
   };
