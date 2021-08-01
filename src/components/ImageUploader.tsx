@@ -48,8 +48,11 @@ const ImageUploader: FC<ImageUploaderProps> = ({ updateCanvas, imageInfo, setIma
             binary: textToBinary(readAlpha() ?? ''),
           });
         };
-        // TODO: This seems like a bad way of doing things. Sesearch further.
-        img.src = event?.target ? event.target.result as string : '';
+
+        const { result } = event.target ?? {};
+        if (typeof result === 'string') {
+          img.src = result;
+        }
       } catch (err) {
         // TODO: Set up a mechanism for reporting errors to the user
         console.log('File failed to load.');
