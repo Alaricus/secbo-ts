@@ -1,5 +1,11 @@
 import { Dispatch, FC, DragEvent, SetStateAction } from 'react';
-import { ImageInfo, UpdateCanvas, ReadAlpha, TextConversion } from './types';
+import { ImageInfo } from './ImageDetails';
+
+export type UpdateCanvas = (image: HTMLImageElement) => void;
+
+export type ReadAlpha = () => string | null;
+
+export type TextConversion = (input: string) => string;
 
 interface ImageUploaderProps {
   updateCanvas: UpdateCanvas,
@@ -56,16 +62,16 @@ const ImageUploader: FC<ImageUploaderProps> = props => {
       onDragOver={e => e.preventDefault()}
     >
       {
-      imageInfo.image
-        ? (
-          <img
-            className="ImagePreview"
-            src={imageInfo.image.src}
-            alt="thumbnail"
-          />
-        ) : (
-          <span>drag an image file here</span>
-        )
+        imageInfo.image
+          ? (
+            <img
+              className="ImagePreview"
+              src={imageInfo.image.src}
+              alt="thumbnail"
+            />
+          ) : (
+            <span>drag an image file here</span>
+          )
       }
     </div>
   );

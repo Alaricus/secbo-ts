@@ -1,7 +1,6 @@
 import { useRef, useEffect, useState, ChangeEvent } from 'react';
-import ImageUploader from './ImageUploader';
-import ImageDetails from './ImageDetails';
-import { ImageInfo, UpdateCanvas, ReadAlpha, TextConversion } from './types';
+import ImageUploader, { ReadAlpha, TextConversion, UpdateCanvas } from './ImageUploader';
+import ImageDetails, { ImageInfo } from './ImageDetails';
 
 const App = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
