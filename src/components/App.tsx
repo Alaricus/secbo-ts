@@ -2,7 +2,7 @@ import { useRef, useEffect, useState, ChangeEvent } from 'react';
 import ImageUploader, { ReadAlpha, TextConversion, UpdateCanvas } from './ImageUploader';
 import ImageDetails, { ImageInfo } from './ImageDetails';
 
-const App = () => {
+const App = (): JSX.Element => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [canvasReady, setCanvasReady] = useState(false);
   const [imageInfo, setImageInfo] = useState<ImageInfo>({ text: '', binary: '', image: null, name: '', dl: '' });
