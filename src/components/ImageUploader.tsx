@@ -15,16 +15,19 @@ interface ImageUploaderProps {
   textToBinary: TextConversion,
 }
 
-const ImageUploader: FC<ImageUploaderProps> = props => {
-  const { updateCanvas, imageInfo, setImageInfo, readAlpha, textToBinary } = props;
-
+const ImageUploader: FC<ImageUploaderProps> = ({ updateCanvas, imageInfo, setImageInfo, readAlpha, textToBinary }) => {
   const uploadImage = (e: DragEvent<HTMLDivElement>): void => {
     e.preventDefault();
     const fr = new FileReader();
     const img = new Image();
 
     // Only accept png images and only use the first file if several are dragged.
-    const file = e.dataTransfer.files[0];
+    const file = e.dataTransfer.files.item(0);
+
+    if (!file) {
+      console.error('Something went wrong with the file upload');
+      return;
+    }
 
     if (file.type === 'image/png') {
       fr.readAsDataURL(file);
