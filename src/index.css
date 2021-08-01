@@ -36,7 +36,7 @@ body {
 
 }
 
-.Info {
+.Details {
   font-size: 0.625rem;
   margin-bottom: 0.625rem;
 }
@@ -58,4 +58,5 @@ a, button {
 
 textarea {
   border: 1px solid cornflowerblue;
+  margin-bottom: 1rem;
 }
