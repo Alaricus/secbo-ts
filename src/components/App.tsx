@@ -1,6 +1,8 @@
-import { useRef, useEffect, useState, ChangeEvent } from 'react';
-import ImageUploader, { ReadAlpha, TextConversion, UpdateCanvas } from './ImageUploader';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { DEFAULT_BINARY_CONTENT } from '../constants';
+import { readAlpha, textToBinary, throwNullErr, writeAlpha } from '../utils';
 import ImageDetails, { ImageInfo } from './ImageDetails';
+import ImageUploader, { UpdateCanvas } from './ImageUploader';
 
 const App = (): JSX.Element => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -8,24 +10,6 @@ const App = (): JSX.Element => {
   const [imageInfo, setImageInfo] = useState<ImageInfo>({ text: '', binary: '', image: null, name: '', dl: '' });
   const [pixels, setPixels] = useState(0);
   const [freePixels, setFreePixels] = useState(0);
-
-  // TODO: Why do I need to define the above as null and why does the receiving component have to worry about it
-  // potentially being null? I have the ref in the JSX below, it could never be null because it's always present.
-
-  let ctx: CanvasRenderingContext2D | null = null;
-
-  if (canvasRef.current) {
-    ctx = canvasRef.current.getContext('2d');
-  }
-
-  const updateCanvas: UpdateCanvas = image => {
-    // TODO: See if this "if" null check can be avoided.
-    if (ctx) {
-      ctx.canvas.width = image.width;
-      ctx.canvas.height = image.height;
-      ctx.drawImage(image, 0, 0);
-    }
-  };
 
   useEffect(() => {
     if (canvasRef.current && !canvasReady) {
@@ -43,84 +27,28 @@ const App = (): JSX.Element => {
     }
   }, [imageInfo.text, imageInfo.binary, imageInfo.image]);
 
-  const textToBinary: TextConversion = txt => `[secbo]${txt}[/secbo]`.split('').map(c => `${c.charCodeAt(0).toString(2)} `).join('');
+  const getCTX = () => canvasRef.current?.getContext('2d') ?? throwNullErr();
 
-  const binaryToText: TextConversion = bin => bin.split(' ').map(b => String.fromCharCode(parseInt(b, 2))).join('');
+  const updateCanvas: UpdateCanvas = image => {
+    const ctx = getCTX();
+    ctx.canvas.width = image.width;
+    ctx.canvas.height = image.height;
+    ctx.drawImage(image, 0, 0);
+  };
 
-  const reset = (image: HTMLImageElement | null, name: string): void => {
+  const reset = (): void => {
     setImageInfo({
       text: '',
-      binary: '1011011 1110011 1100101 1100011 1100010 1101111 1011101  1011011 101111 1110011 1100101 1100011 1100010 1101111 1011101',
-      image,
-      name,
+      binary: DEFAULT_BINARY_CONTENT,
+      image: null,
+      name: '',
       dl: '',
     });
   };
 
-  const readAlpha: ReadAlpha = () => {
-    // TODO: See if this "if" null check can be avoided.
-    if (ctx) {
-      const ctxImageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
-      const bin = ctxImageData.data.reduce((acc, value, index) => {
-        if (index > 0 && (index + 1) % 4 === 0) {
-          if (value === 253) {
-            const tempAcc = `${acc} `;
-            return tempAcc;
-          }
-          if (value === 254) {
-            const tempAcc = `${acc}1`;
-            return tempAcc;
-          }
-          if (value === 255) {
-            const tempAcc = `${acc}0`;
-            return tempAcc;
-          }
-        }
-        return acc;
-      }, '');
-
-      const text = binaryToText(bin);
-
-      if (text.startsWith('[secbo]') && text.substring(0, text.length - 1).endsWith('[/secbo]')) {
-        return text.substring(7, text.length - 9);
-      }
-    }
-
-    return null;
-  };
-
-  const writeAlpha = (binary: string): void => {
-    // TODO: See if this "if" null check can be avoided.
-    if (ctx) {
-      const ctxImageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
-      if (ctxImageData.data.length / 4 >= binary.length) {
-        // This sets everything to 255, so no need to handle zeroes
-        ctxImageData.data.forEach((datum, index) => {
-          if (index > 0 && (index + 1) % 4 === 0) {
-            ctxImageData.data[index] = 255;
-          }
-        });
-
-        binary.split('').forEach((digit, index) => {
-          if (digit === '1') {
-            ctxImageData.data[(index * 4) + 3] = 254;
-          }
-
-          if (digit === ' ') {
-            ctxImageData.data[(index * 4) + 3] = 253;
-          }
-        });
-
-        ctx.putImageData(ctxImageData, 0, 0);
-      } else {
-        // TODO: Set up a mechanism for reporting errors to the user
-        alert('The image was too small to contain all this data.');
-      }
-    }
-  };
-
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
-    writeAlpha(textToBinary(e.target.value));
+    const ctx = getCTX();
+    writeAlpha(ctx, textToBinary(e.target.value));
     setImageInfo({
       ...imageInfo,
       text: e.target.value,
@@ -136,7 +64,7 @@ const App = (): JSX.Element => {
         updateCanvas={updateCanvas}
         imageInfo={imageInfo}
         setImageInfo={setImageInfo}
-        readAlpha={readAlpha}
+        readAlpha={() => readAlpha(getCTX())}
         textToBinary={textToBinary}
       />
       <ImageDetails
@@ -167,7 +95,7 @@ const App = (): JSX.Element => {
       {
         imageInfo?.image?.src
         && (
-          <button type="button" onClick={() => reset(null, '')}>clear</button>
+          <button type="button" onClick={reset}>clear</button>
         )
       }
       <canvas ref={canvasRef} />

@@ -3,16 +3,12 @@ import { ImageInfo } from './ImageDetails';
 
 export type UpdateCanvas = (image: HTMLImageElement) => void;
 
-export type ReadAlpha = () => string | null;
-
-export type TextConversion = (input: string) => string;
-
 interface ImageUploaderProps {
   updateCanvas: UpdateCanvas,
   imageInfo: ImageInfo,
   setImageInfo: Dispatch<SetStateAction<ImageInfo>>,
-  readAlpha: ReadAlpha,
-  textToBinary: TextConversion,
+  readAlpha: () => string | null,
+  textToBinary: (str: string) => string,
 }
 
 const ImageUploader: FC<ImageUploaderProps> = ({ updateCanvas, imageInfo, setImageInfo, readAlpha, textToBinary }) => {
@@ -39,12 +35,13 @@ const ImageUploader: FC<ImageUploaderProps> = ({ updateCanvas, imageInfo, setIma
     fr.onload = event => {
       img.onload = () => {
         updateCanvas(img);
+        const alpha = readAlpha() ?? '';
         setImageInfo({
           ...imageInfo,
           image: img,
           name: file.name,
-          text: readAlpha() ?? '',
-          binary: textToBinary(readAlpha() ?? ''),
+          text: alpha,
+          binary: textToBinary(alpha),
         });
       };
 
