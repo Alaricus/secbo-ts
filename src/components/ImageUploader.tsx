@@ -44,8 +44,8 @@ const ImageUploader: FC<ImageUploaderProps> = ({ updateCanvas, imageInfo, setIma
             ...imageInfo,
             image: img,
             name: file.name,
-            text: readAlpha() || '',
-            binary: textToBinary(readAlpha() || ''),
+            text: readAlpha() ?? '',
+            binary: textToBinary(readAlpha() ?? ''),
           });
         };
         // TODO: This seems like a bad way of doing things. Sesearch further.

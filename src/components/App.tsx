@@ -125,7 +125,7 @@ const App = (): JSX.Element => {
       ...imageInfo,
       text: e.target.value,
       binary: textToBinary(e.target.value),
-      dl: canvasRef.current?.toDataURL('image/png') || '',
+      dl: canvasRef.current?.toDataURL('image/png') ?? '',
     });
   };
 
