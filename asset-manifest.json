@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/secbo-ts/static/css/main.4874d3f7.chunk.css",
-    "main.js": "/secbo-ts/static/js/main.757d90c7.chunk.js",
-    "main.js.map": "/secbo-ts/static/js/main.757d90c7.chunk.js.map",
+    "main.js": "/secbo-ts/static/js/main.7668cd47.chunk.js",
+    "main.js.map": "/secbo-ts/static/js/main.7668cd47.chunk.js.map",
     "runtime-main.js": "/secbo-ts/static/js/runtime-main.2a4ea625.js",
     "runtime-main.js.map": "/secbo-ts/static/js/runtime-main.2a4ea625.js.map",
     "static/js/2.cfdb7a39.chunk.js": "/secbo-ts/static/js/2.cfdb7a39.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.2a4ea625.js",
     "static/js/2.cfdb7a39.chunk.js",
     "static/css/main.4874d3f7.chunk.css",
-    "static/js/main.757d90c7.chunk.js"
+    "static/js/main.7668cd47.chunk.js"
   ]
 }
