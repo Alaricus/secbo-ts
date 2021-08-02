@@ -61,21 +61,27 @@ const App = (): JSX.Element => {
         readAlpha={() => readAlpha(getCTX())}
         textToBinary={textToBinary}
       />
-      <ImageDetails
-        imageInfo={imageInfo}
-        pixels={pixels}
-        freePixels={freePixels}
-      />
-      <textarea
-        rows={15}
-        cols={50}
-        value={imageInfo.text}
-        onChange={e => handleChange(e)}
-      />
+      {
+        imageInfo?.image?.src
+        && freePixels >= 0
+        && (
+          <>
+            <ImageDetails
+              imageInfo={imageInfo}
+              pixels={pixels}
+              freePixels={freePixels}
+            />
+            <textarea
+              rows={15}
+              cols={50}
+              value={imageInfo.text}
+              onChange={e => handleChange(e)}
+            />
+          </>
+        )
+      }
       {
         imageInfo.text.length > 0
-        && imageInfo?.image?.src
-        && freePixels >= 0
         && (
           <a
             role="button"
