@@ -3,12 +3,14 @@ import DEFAULT_BINARY_CONTENT from '../constants';
 import { readAlpha, textToBinary, throwNullErr, writeAlpha } from '../utils';
 import ImageDetails, { ImageInfo } from './ImageDetails';
 import ImageUploader, { UpdateCanvas } from './ImageUploader';
+import UserAlert from './UserAlert';
 
 const App = (): JSX.Element => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [imageInfo, setImageInfo] = useState<ImageInfo>({ text: '', binary: '', image: null, name: '', dl: '' });
   const [pixels, setPixels] = useState(0);
   const [freePixels, setFreePixels] = useState(0);
+  const [alertMessage, setAlertMessage] = useState('');
 
   useEffect(() => {
     if (imageInfo?.image) {
@@ -41,7 +43,7 @@ const App = (): JSX.Element => {
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
     const ctx = getCTX();
-    writeAlpha(ctx, textToBinary(e.target.value));
+    writeAlpha(ctx, textToBinary(e.target.value), setAlertMessage);
     setImageInfo({
       ...imageInfo,
       text: e.target.value,
@@ -52,18 +54,19 @@ const App = (): JSX.Element => {
 
   return (
     <div className="App">
+      <UserAlert message={alertMessage} dismiss={setAlertMessage} />
       <h2>secbo-ts</h2>
-      <p>v 1.1.0</p>
+      <p>v 1.2.0</p>
       <ImageUploader
         updateCanvas={updateCanvas}
         imageInfo={imageInfo}
         setImageInfo={setImageInfo}
         readAlpha={() => readAlpha(getCTX())}
         textToBinary={textToBinary}
+        fireAlert={setAlertMessage}
       />
       {
         imageInfo?.image?.src
-        && freePixels >= 0
         && (
           <>
             <ImageDetails

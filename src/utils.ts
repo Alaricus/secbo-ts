@@ -33,7 +33,7 @@ export const readAlpha = (context: CanvasRenderingContext2D): string | null => {
   return null;
 };
 
-export const writeAlpha = (context: CanvasRenderingContext2D, binary: string): void => {
+export const writeAlpha = (context: CanvasRenderingContext2D, binary: string, fireAlert: (str: string) => void): void => {
   const ctxImageData = context.getImageData(0, 0, context.canvas.width, context.canvas.height);
   if (ctxImageData.data.length / 4 >= binary.length) {
     // This sets everything to 255, so no need to handle zeroes
@@ -55,7 +55,6 @@ export const writeAlpha = (context: CanvasRenderingContext2D, binary: string): v
 
     context.putImageData(ctxImageData, 0, 0);
   } else {
-    // TODO: Set up a mechanism for reporting errors to the user
-    alert('The image was too small to contain all this data.');
+    fireAlert('The image is too small to contain all this data.');
   }
 };

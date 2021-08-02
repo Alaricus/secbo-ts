@@ -1,7 +1,7 @@
 # secbo-ts
 
-SecBO is Security by Obscurity, a way to hide bits of text in the alpha (transparency) layer of a PNG file.
-This version is written in Typescript for practice.
+SecBO is Security By Obscurity, a way to hide bits of text in the alpha (transparency) layer of a PNG file.
+This version was rewritten in Typescript for practice.
 Try it out [here](https://alaricus.github.io/secbo-ts/).
 
 ## Assets Credits

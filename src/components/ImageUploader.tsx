@@ -9,9 +9,11 @@ interface ImageUploaderProps {
   setImageInfo: Dispatch<SetStateAction<ImageInfo>>,
   readAlpha: () => string | null,
   textToBinary: (str: string) => string,
+  fireAlert: (str: string) => void,
 }
 
-const ImageUploader: FC<ImageUploaderProps> = ({ updateCanvas, imageInfo, setImageInfo, readAlpha, textToBinary }) => {
+const ImageUploader: FC<ImageUploaderProps> = props => {
+  const { updateCanvas, imageInfo, setImageInfo, readAlpha, textToBinary, fireAlert } = props;
   const uploadImage = (e: DragEvent<HTMLDivElement>): void => {
     e.preventDefault();
     const fr = new FileReader();
@@ -21,15 +23,14 @@ const ImageUploader: FC<ImageUploaderProps> = ({ updateCanvas, imageInfo, setIma
     const file = e.dataTransfer.files.item(0);
 
     if (!file) {
-      console.error('Something went wrong with the file upload');
+      fireAlert('Something went wrong with the file upload.');
       return;
     }
 
     if (file.type === 'image/png') {
       fr.readAsDataURL(file);
     } else {
-      // TODO: Set up a mechanism for reporting errors to the user
-      console.log('Invalid format. Use a PNG image.');
+      fireAlert('Invalid format. Please use a PNG image.');
     }
 
     fr.onload = event => {
