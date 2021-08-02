@@ -1,5 +1,12 @@
 import { FC } from 'react';
-import { ImageInfo } from './types';
+
+export interface ImageInfo {
+  text: string,
+  binary: string,
+  image: HTMLImageElement | null,
+  name: string,
+  dl: string,
+}
 
 interface ImageDetailsProps {
   imageInfo: ImageInfo,
@@ -7,17 +14,13 @@ interface ImageDetailsProps {
   freePixels: number,
 }
 
-const ImageDetails: FC<ImageDetailsProps> = props => {
-  const { imageInfo, pixels, freePixels } = props;
-
-  return (
-    <div className="Details">
-      {imageInfo.image && `${pixels} total pixels, ` }
-      <span style={{ color: freePixels > 0 ? 'black' : 'red' }}>
-        { imageInfo.image && `${freePixels} still available` }
-      </span>
-    </div>
-  );
-};
+const ImageDetails: FC<ImageDetailsProps> = ({ imageInfo, pixels, freePixels }) => (
+  <div className="Details">
+    {imageInfo.image && `${pixels} total pixels, `}
+    <span style={{ color: freePixels > 0 ? 'black' : 'red' }}>
+      {imageInfo.image && `${freePixels} still available`}
+    </span>
+  </div>
+);
 
 export default ImageDetails;
