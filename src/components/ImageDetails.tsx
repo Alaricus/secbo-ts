@@ -18,7 +18,7 @@ const ImageDetails: FC<ImageDetailsProps> = ({ imageInfo, pixels, freePixels }) 
   <div className="Details">
     {imageInfo.image && `${pixels} total pixels, `}
     <span style={{ color: freePixels > 0 ? 'black' : 'red' }}>
-      {imageInfo.image && `${freePixels} ${freePixels > 0 ? 'still available' : 'over the limit'}`}
+      {imageInfo.image && `${Math.abs(freePixels)} ${freePixels > 0 ? 'still available' : 'over the limit'}`}
     </span>
   </div>
 );

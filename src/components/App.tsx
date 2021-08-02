@@ -56,7 +56,7 @@ const App = (): JSX.Element => {
     <div className="App">
       <UserAlert message={alertMessage} dismiss={setAlertMessage} />
       <h2>secbo-ts</h2>
-      <p>v 1.2.0</p>
+      <p>v 1.2.1</p>
       <ImageUploader
         updateCanvas={updateCanvas}
         imageInfo={imageInfo}

@@ -1,6 +1,6 @@
 {
   "name": "secbo-ts",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Security by obscurity. Hiding text within the alpha channel of png images.",
   "author": "Alaric von Teplitz",
   "license": "MIT",
