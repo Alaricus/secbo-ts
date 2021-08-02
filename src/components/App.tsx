@@ -52,7 +52,8 @@ const App = (): JSX.Element => {
 
   return (
     <div className="App">
-      <h2>secbo</h2>
+      <h2>secbo-ts</h2>
+      <p>v 1.1.0</p>
       <ImageUploader
         updateCanvas={updateCanvas}
         imageInfo={imageInfo}

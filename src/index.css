@@ -41,6 +41,15 @@ body {
   margin-bottom: 0.625rem;
 }
 
+h2 {
+  margin-bottom: 0.25rem;
+}
+
+p {
+  margin-top: 0;
+  font-size: 0.75rem;
+}
+
 canvas {
   display: none;
 }
