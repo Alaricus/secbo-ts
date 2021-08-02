@@ -32,8 +32,8 @@
     "import/no-extraneous-dependencies": 0,
     "no-confusing-arrow": 0,
     "no-class-assign": 0,
-    // "no-use-before-define": ["error", { "variables": false }],
-    "no-use-before-define": "off",
+    "no-use-before-define": ["error", { "variables": false }],
+    // "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["error"],
     "no-multi-spaces": [2, { "exceptions": { "ObjectExpression": true } }],
     "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
@@ -52,7 +52,7 @@
     "react/prop-types": "off",
     "react-hooks/rules-of-hooks": "error",
     "react/react-in-jsx-scope": "off",
-    "import/prefer-default-export": "off",
+    // "import/prefer-default-export": "off",
     "arrow-parens": ["error", "as-needed"]
   }
 }

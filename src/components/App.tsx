@@ -1,21 +1,14 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { DEFAULT_BINARY_CONTENT } from '../constants';
+import DEFAULT_BINARY_CONTENT from '../constants';
 import { readAlpha, textToBinary, throwNullErr, writeAlpha } from '../utils';
 import ImageDetails, { ImageInfo } from './ImageDetails';
 import ImageUploader, { UpdateCanvas } from './ImageUploader';
 
 const App = (): JSX.Element => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [canvasReady, setCanvasReady] = useState(false);
   const [imageInfo, setImageInfo] = useState<ImageInfo>({ text: '', binary: '', image: null, name: '', dl: '' });
   const [pixels, setPixels] = useState(0);
   const [freePixels, setFreePixels] = useState(0);
-
-  useEffect(() => {
-    if (canvasRef.current && !canvasReady) {
-      setCanvasReady(true);
-    }
-  }, [canvasRef]);
 
   useEffect(() => {
     if (imageInfo?.image) {
@@ -95,7 +88,7 @@ const App = (): JSX.Element => {
       {
         imageInfo?.image?.src
         && (
-          <button type="button" onClick={reset}>clear</button>
+          <button type="button" onClick={reset}>reset</button>
         )
       }
       <canvas ref={canvasRef} />
