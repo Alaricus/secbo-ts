@@ -1,11 +1,11 @@
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { FC, ChangeEvent, useEffect, useRef, useState } from 'react';
 import DEFAULT_BINARY_CONTENT from '../constants';
 import { readAlpha, textToBinary, throwNullErr, writeAlpha } from '../utils';
 import ImageDetails, { ImageInfo } from './ImageDetails';
 import ImageUploader, { UpdateCanvas } from './ImageUploader';
 import UserAlert from './UserAlert';
 
-const App = (): JSX.Element => {
+const App: FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [imageInfo, setImageInfo] = useState<ImageInfo>({ text: '', binary: '', image: null, name: '', dl: '' });
   const [pixels, setPixels] = useState(0);
@@ -53,7 +53,7 @@ const App = (): JSX.Element => {
   };
 
   return (
-    <div className="App">
+    <div className="App" data-testid="app">
       <UserAlert message={alertMessage} dismiss={setAlertMessage} />
       <h2>secbo-ts</h2>
       <p>v 1.2.1</p>
